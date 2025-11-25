@@ -14,6 +14,7 @@ public class BankServiceImpl implements BankService {
 
         String accountNumber = UUID.randomUUID().toString();
         Account a=new Account(accountNumber, accountType,(double)0,customerId);
+        // save
         return "";
     }
 }

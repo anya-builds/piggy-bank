@@ -1,10 +1,14 @@
 package app;
 
+import service.BankService;
+import service.impl.BankServiceImpl;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner=new Scanner(System.in);
+        BankService bankService = new BankServiceImpl();
         boolean running = true;
         System.out.println("Welcome to console bank!");
         while(running) {
