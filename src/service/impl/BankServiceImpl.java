@@ -14,10 +14,16 @@ public class BankServiceImpl implements BankService {
     public String openAccount(String name, String email, String accountType) {
         String customerId = UUID.randomUUID().toString();
 
-        String accountNumber = UUID.randomUUID().toString();
-        Account a=new Account(accountNumber, accountType,(double)0,customerId);
+//        String accountNumber = UUID.randomUUID().toString();
+//        int temp = accountRepository.findAll().size()+1;
+        String accountNumber = getAccountNumber();
+        Account account=new Account(accountNumber, accountType,(double)0,customerId);
         // save
-        accountRepository.save(a);
-        return "";
+        accountRepository.save(account);
+        return accountNumber;
+    }
+    private String getAccountNumber(){
+        int size = accountRepository.findAll().size()+1;
+        return String.format("AC%06d",size);
     }
 }
