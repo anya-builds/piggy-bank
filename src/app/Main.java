@@ -7,36 +7,37 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         BankService bankService = new BankServiceImpl();
         boolean running = true;
-        System.out.println("Welcome to console bank!");
-        while(running) {
+        System.out.println("Welcome to Console Bank");
+        while (running) {
             System.out.println("""
                 1) Open Account
                 2) Deposit
                 3) Withdraw
                 4) Transfer
-                5) Account Statement 
+                5) Account Statement
                 6) List Accounts
                 7) Search Accounts by Customer Name
                 0) Exit
-                """);
-            System.out.println("CHOOSE: ");
-            String choice=scanner.nextLine().trim();
-            System.out.println("CHOICE: "+choice);
+            """);
+            System.out.print("CHOOSE: ");
+            String choice = scanner.nextLine().trim();
+            System.out.println("CHOICE: " + choice);
 
-            switch (choice){
+            switch (choice) {
                 case "1" -> openAccount(scanner, bankService);
-                case "2" -> deposit(scanner);
-                case "3" -> withdraw(scanner);
-                case "4" -> transfer(scanner);
-                case "5" -> statement(scanner);
+                case "2" -> deposit(scanner, bankService);
+                case "3" -> withdraw(scanner, bankService);
+                case "4" -> transfer(scanner, bankService);
+                case "5" -> statement(scanner, bankService);
                 case "6" -> listAccounts(scanner, bankService);
-                case "7" -> searchAccounts(scanner);
-                case "0" -> running=false;
+                case "7" -> searchAccounts(scanner, bankService);
+                case "0" -> running = false;
             }
         }
+
 
     }
 
@@ -66,14 +67,31 @@ public class Main {
         System.out.println("Deposited");
     }
 
-    private static void withdraw(Scanner scanner) {
+    private static void withdraw(Scanner scanner, BankService bankService) {
+        System.out.println("Account number: ");
+        String accountNumber = scanner.nextLine().trim();
+        System.out.println("Amount: ");
+        Double amount = Double.valueOf(scanner.nextLine().trim());
+        bankService.withdraw(accountNumber, amount, "Withdrawal");
+        System.out.println("Withdrawn");
     }
 
-    private static void transfer(Scanner scanner) {
-        
+    private static void transfer(Scanner scanner, BankService bankService) {
+        System.out.println("From Account: ");
+        String from = scanner.nextLine().trim();
+        System.out.println("To Account: ");
+        String to = scanner.nextLine().trim();
+        System.out.println("Amount: ");
+        Double amount = Double.valueOf(scanner.nextLine().trim());
+        bankService.transfer(from, to, amount, "Transfer");
     }
 
-    private static void statement(Scanner scanner) {
+    private static void statement(Scanner scanner, BankService bankService) {
+        System.out.println("Account number: ");
+        String account = scanner.nextLine().trim();
+        bankService.getStatement(account).forEach(t -> {
+            System.out.println(t.getTimestamp() + " | " + t.getType() + " | " + t.getAmount() + " | " + t.getNote());
+        });
     }
 
     private static void listAccounts(Scanner scanner, BankService bankService) {
@@ -82,7 +100,12 @@ public class Main {
         });
     }
 
-    private static void searchAccounts(Scanner scanner) {
+    private static void searchAccounts(Scanner scanner, BankService bankService) {
+        System.out.println("Customer name contains: ");
+        String q = scanner.nextLine().trim();
+        bankService.searchAccountsByCustomerName(q).forEach(account ->
+                System.out.println(account.getAccountNumber() + " | " + account.getAccountType() + " | " + account.getBalance())
+        );
     }
 
 
