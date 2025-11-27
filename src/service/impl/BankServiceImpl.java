@@ -33,6 +33,11 @@ public class BankServiceImpl implements BankService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deposit(String accountNumber, Double amount, String deposit) {
+        
+    }
+
     private String getAccountNumber(){
         int size = accountRepository.findAll().size()+1;
         return String.format("AC%06d",size);

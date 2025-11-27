@@ -44,17 +44,26 @@ public class Main {
         System.out.println("Customer name: ");
         String name = scanner.nextLine().trim();
         System.out.println("Customer email: ");
-        String email=scanner.nextLine().trim();
+        String email = scanner.nextLine().trim();
         System.out.println("Account Type (SAVINGS/CURRENT): ");
         String type = scanner.nextLine().trim();
         System.out.println("Initial deposit (optional, blank for 0): ");
         String amountStr = scanner.nextLine().trim();
+        if (amountStr.isBlank()) amountStr = "0";
         Double initial = Double.valueOf(amountStr);
-        bankService.openAccount(name,email,type);
-
+        String accountNumber = bankService.openAccount(name,email,type);
+        if (initial > 0)
+            bankService.deposit(accountNumber, initial, "Initial Deposit");
+        System.out.println("Account opened: " + accountNumber);
     }
 
-    private static void deposit(Scanner scanner) {
+    private static void deposit(Scanner scanner, BankService bankService) {
+        System.out.println("Account number: ");
+        String accountNumber = scanner.nextLine().trim();
+        System.out.println("Amount: ");
+        Double amount = Double.valueOf(scanner.nextLine().trim());
+        bankService.deposit(accountNumber, amount, "Deposit");
+        System.out.println("Deposited");
     }
 
     private static void withdraw(Scanner scanner) {
