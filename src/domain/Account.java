@@ -2,15 +2,15 @@ package domain;
 
 public class Account {
     private String accountNumber;
-    private String customerID;
+    private String customerId;
     private Double balance;
     private String accountType;
 
-    public Account(String accountNumber, String customerID, Double balance, String accountType) {
+    public Account(String accountNumber, String accountType, Double balance, String customerId) {
         this.accountNumber = accountNumber;
-        this.customerID = customerID;
-        this.balance = balance;
         this.accountType = accountType;
+        this.balance = balance;
+        this.customerId = customerId;
     }
 
     public String getAccountNumber() {
@@ -37,11 +37,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getCustomerID() {
-        return customerID;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }
